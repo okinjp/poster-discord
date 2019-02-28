@@ -17,7 +17,7 @@ function curl_wrap($url, $postfields) {
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
 } else {
-    $url = "https://discordapp.com/api/webhooks/524933567159992330/OVyK3_6nCzQ8xpcPjvtlM3GFZttZ2pveTQV-M8HQxe0wGAvPZWt13YErjdsPj4hrKo_X";
+    $url = "your-default-discord-webhook-url";
 }
 if (isset($_GET['name'])) {
     $postfields['name'] = $_GET['name'];
