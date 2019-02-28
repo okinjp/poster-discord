@@ -14,27 +14,33 @@ function curl_wrap($url, $postfields) {
     curl_close($ch);
     return $data;
 }
+
+$url = "your-default-discord-webhook-url";
+
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
-} else {
-    $url = "your-default-discord-webhook-url";
 }
+
 if (isset($_GET['name'])) {
     $postfields['name'] = $_GET['name'];
 }
+
 if (strpos($_SERVER["REQUEST_URI"],"&")>0) {
     $content = urldecode($_SERVER["REQUEST_URI"]);
     $content = preg_replace("/^\/.*\?/D","",$content);
-    $content = preg_replace("/\&url=.*/D","",$content);
+    $content = preg_replace("/[\&url,url]=.*[&content=,]/D","",$content);
     $content = str_replace("&content=","",$content);
     $content = str_replace("content=","",$content);
-    echo $content;
-} 
+}
+ 
 if (isset($_GET['content'])) {
     if (mb_strlen($_GET['content'])<mb_strlen($content)){
         $postfields["content"] = $content;
     }else {
-        $content = preg_replace("/url=.*\&content=/D","",$_SERVER["REQUEST_URI"]);
+        $content = urldecode($_SERVER["REQUEST_URI"]);
+        $content = preg_replace("/^\/.*\?/D","",$content);
+        $content = preg_replace("/?url=.*\&content=/D","",$content);
+
         if(mb_strlen($_GET['content'])<mb_strlen($content)&&strpos($content,'url=')=== false){
             $postfields["content"] = $content;
         }else {
